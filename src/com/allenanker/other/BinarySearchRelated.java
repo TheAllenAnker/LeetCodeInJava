@@ -1,5 +1,8 @@
 package com.allenanker.other;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 public class BinarySearchRelated {
 
     public static void main(String[] args) {
@@ -8,6 +11,8 @@ public class BinarySearchRelated {
         System.out.println(findLast1(nums, 8));
         System.out.println(findFristGE(nums, 7));
         System.out.println(findLastSE(nums, 12));
+        int[] circularNums = new int[] {4, 5, 6, 1, 2, 3};
+        System.out.println(findTargetInCircularSortedList1(circularNums, 3));
     }
 
     /**
@@ -98,7 +103,8 @@ public class BinarySearchRelated {
 
     /**
      * Find the first element in the sorted array which is smaller or equal to the target.
-     * @param nums the sorted array
+     *
+     * @param nums   the sorted array
      * @param target the target element
      * @return the target's index
      */
@@ -115,5 +121,28 @@ public class BinarySearchRelated {
         }
 
         return -1;
+    }
+
+    /**
+     * Find the target's index in a not usual circular "sorted" array which
+     * goes like this: [4, 5, 6, 1, 2, 3].
+     * @param nums   the circular "sorted" array
+     * @param target the target
+     * @return the returned index
+     */
+    public static int findTargetInCircularSortedList1(int[] nums, int target) {
+        int start = 0;
+        for (int i = 0; i < nums.length - 1; i++) {
+            if (nums[i + 1] < nums[i]) {
+                start =  i + 1;
+                break;
+            }
+        }
+
+        int left = findFirst2(Arrays.copyOfRange(nums, 0, start), target);
+        int right = findFirst2(Arrays.copyOfRange(nums, start, nums.length), target);
+        right = right != -1 ? right + start : right;
+
+        return right == -1 ? left : right;
     }
 }
