@@ -4,7 +4,9 @@ public class BinarySearchRelated {
 
     public static void main(String[] args) {
         int[] nums = new int[]{1, 3, 4, 5, 6, 8, 8, 8, 11, 18};
+        System.out.println(findFirst2(nums, 8));
         System.out.println(findLast1(nums, 8));
+        System.out.println(findFristGE(nums, 7));
     }
 
     /**
@@ -65,6 +67,27 @@ public class BinarySearchRelated {
             } else {
                 if (mid == nums.length - 1 || nums[mid + 1] != target) return mid;
                 else left = mid + 1;
+            }
+        }
+
+        return -1;
+    }
+
+    /**
+     * Find the first element in the sorted array which is greater or equal to the target.
+     * @param nums the sorted array
+     * @param target the target element
+     * @return the target's index
+     */
+    public static int findFristGE(int[] nums, int target) {
+        int left = 0, right = nums.length - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                if (mid == 0 || nums[mid - 1] < target) return mid;
+                else right = mid - 1;
             }
         }
 
