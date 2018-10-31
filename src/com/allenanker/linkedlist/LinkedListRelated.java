@@ -8,6 +8,11 @@ public class LinkedListRelated {
         printLinkedList(reverseLinkedList2(head2));
         printLinkedList(mergeSortedLinkedList(generateLinkedList(), generateLinkedList()));
         printLinkedList(deleteKthToLastNode(generateLinkedList(), 4));
+        System.out.println(findMid(generateLinkedList()).val);
+        ListNode node1 = generateLinkedList();
+        node1.next.next.next.next = new ListNode(4);
+        printLinkedList(node1);
+        System.out.println(findMid(node1).val);
     }
 
     /**
@@ -124,6 +129,20 @@ public class LinkedListRelated {
         prev.next = p2.next;
 
         return head;
+    }
+
+    public static ListNode findMid(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        ListNode slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        return slow;
     }
 
     private static ListNode generateLinkedList() {
