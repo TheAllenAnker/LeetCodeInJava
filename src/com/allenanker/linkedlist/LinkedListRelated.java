@@ -1,16 +1,18 @@
 package com.allenanker.linkedlist;
 
 public class LinkedListRelated {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IllegalAccessException {
         ListNode head1 = generateLinkedList();
         ListNode head2 = generateLinkedList();
         printLinkedList(reverseLinkedList1(head1));
         printLinkedList(reverseLinkedList2(head2));
         printLinkedList(mergeSortedLinkedList(generateLinkedList(), generateLinkedList()));
+        printLinkedList(deleteKthToLastNode(generateLinkedList(), 4));
     }
 
     /**
      * Reverse a single-linked list iteratively.
+     *
      * @param head head node of the linked list
      * @return the head of the reversed linked list
      */
@@ -33,6 +35,7 @@ public class LinkedListRelated {
 
     /**
      * Reverse a single-linked list recursively.
+     *
      * @param head head node of the linked list
      * @return the head of the reversed linked list
      */
@@ -50,6 +53,7 @@ public class LinkedListRelated {
     /**
      * Search circle in linked list, return the circle's entry if exists, or return null.
      * A slow pointer and a fast pointer.
+     *
      * @param head the head of the linked list
      * @return circle entry or null
      */
@@ -88,6 +92,38 @@ public class LinkedListRelated {
         head.next = head1 != null ? head1 : head2;
 
         return headCopy.next;
+    }
+
+    /**
+     * Delete the kth element to the last of the linked list.
+     *
+     * @param head the head of the linked list
+     * @param k    the kth node to the last
+     */
+    public static ListNode deleteKthToLastNode(ListNode head, int k) throws IllegalAccessException {
+        if (k <= 0) return head;
+
+        ListNode p1 = head, p2 = head;
+        for (int i = 0; i < k; i++) {
+            if (p1 == null) throw new IllegalAccessException("K cannot be greater than the length of the " +
+                    "provided linked list.");
+            p1 = p1.next;
+        }
+        // return head.next if the target is the first element
+        if (p1 == null) return head.next;
+
+        // find the kth element to the last
+        ListNode prev = null;
+        while (p1 != null) {
+            p1 = p1.next;
+            prev = p2;
+            p2 = p2.next;
+        }
+
+        // now p2 is the target to be deleted
+        prev.next = p2.next;
+
+        return head;
     }
 
     private static ListNode generateLinkedList() {
