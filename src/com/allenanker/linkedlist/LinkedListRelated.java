@@ -6,6 +6,7 @@ public class LinkedListRelated {
         ListNode head2 = generateLinkedList();
         printLinkedList(reverseLinkedList1(head1));
         printLinkedList(reverseLinkedList2(head2));
+        printLinkedList(mergeSortedLinkedList(generateLinkedList(), generateLinkedList()));
     }
 
     /**
@@ -69,6 +70,24 @@ public class LinkedListRelated {
         }
 
         return fast;
+    }
+
+    public static ListNode mergeSortedLinkedList(ListNode head1, ListNode head2) {
+        ListNode head = new ListNode(0);
+        ListNode headCopy = head;
+        while (head1 != null && head2 != null) {
+            if (head1.val < head2.val) {
+                head.next = new ListNode(head1.val);
+                head1 = head1.next;
+            } else {
+                head.next = new ListNode(head2.val);
+                head2 = head2.next;
+            }
+            head = head.next;
+        }
+        head.next = head1 != null ? head1 : head2;
+
+        return headCopy.next;
     }
 
     private static ListNode generateLinkedList() {
