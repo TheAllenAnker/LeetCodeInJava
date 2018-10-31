@@ -46,6 +46,31 @@ public class LinkedListRelated {
         return currNode;
     }
 
+    /**
+     * Search circle in linked list, return the circle's entry if exists, or return null.
+     * A slow pointer and a fast pointer.
+     * @param head the head of the linked list
+     * @return circle entry or null
+     */
+    public static ListNode searchCircle(ListNode head) {
+        if (head == null || head.next == null) return null;
+        ListNode slow = head, fast = head;
+        while (true) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) break;
+            else if (fast == null || fast.next == null) return null;
+        }
+
+        ListNode dummy = head;
+        while (dummy != fast) {
+            dummy = dummy.next;
+            fast = fast.next;
+        }
+
+        return fast;
+    }
+
     private static ListNode generateLinkedList() {
         ListNode head = new ListNode(0);
         head.next = new ListNode(1);
@@ -67,10 +92,10 @@ public class LinkedListRelated {
 
 
 class ListNode {
-    public int val;
-    public ListNode next;
+    int val;
+    ListNode next;
 
-    public ListNode(int val) {
+    ListNode(int val) {
         this.val = val;
     }
 }
