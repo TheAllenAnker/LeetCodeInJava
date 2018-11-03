@@ -1,19 +1,23 @@
 package com.allenanker.linkedlist;
 
+import java.util.Queue;
+import java.util.Stack;
+
 public class LinkedListRelated {
     public static void main(String[] args) throws IllegalAccessException {
-        ListNode head1 = generateLinkedList();
-        ListNode head2 = generateLinkedList();
-        printLinkedList(reverseLinkedList1(head1));
-        printLinkedList(reverseLinkedList2(head2));
-        printLinkedList(mergeSortedLinkedList(generateLinkedList(), generateLinkedList()));
-        printLinkedList(deleteKthToLastNode(generateLinkedList(), 4));
-        System.out.println(findMid(generateLinkedList()).val);
-        ListNode node1 = generateLinkedList();
-        node1.next.next.next.next = new ListNode(4);
-        printLinkedList(node1);
-        System.out.println(findMid(node1).val);
+//        ListNode head1 = generateLinkedList();
+//        ListNode head2 = generateLinkedList();
+//        printLinkedList(reverseLinkedList1(head1));
+//        printLinkedList(reverseLinkedList2(head2));
+//        printLinkedList(mergeSortedLinkedList(generateLinkedList(), generateLinkedList()));
+//        printLinkedList(deleteKthToLastNode(generateLinkedList(), 4));
+//        System.out.println(findMid(generateLinkedList()).val);
+//        ListNode node1 = generateLinkedList();
+//        node1.next.next.next.next = new ListNode(4);
+//        printLinkedList(node1);
+//        System.out.println(findMid(node1).val);
 //        printLinkedList(removeNode(generateLinkedList(), 3));
+        printLinkedList(kInverse(generateLinkedList(), 3));
     }
 
     /**
@@ -156,21 +160,38 @@ public class LinkedListRelated {
      * @return the new head
      */
     public static ListNode kInverse(ListNode head, int k) {
-        int count = 0;
+        Stack<ListNode> stack = new Stack<>();
+        ListNode newHead = new ListNode(0);
+        ListNode dummy = newHead;
         while (head != null) {
-
+            stack.push(head);
+            head = head.next;
+            if (stack.size() == k) {
+                while (!stack.isEmpty()) {
+                    dummy.next = stack.pop();
+                    dummy.next.next = null;
+                    dummy = dummy.next;
+                }
+            }
         }
 
-        return null;
+        while (!stack.isEmpty()) {
+            dummy.next = stack.remove(0);
+            dummy = dummy.next;
+        }
+
+        return newHead.next;
     }
 
     private static ListNode generateLinkedList() {
         ListNode head = new ListNode(0);
-        head.next = new ListNode(1);
-        head.next.next = new ListNode(2);
-        head.next.next.next = new ListNode(3);
+        ListNode dummy = head;
+        for (int i = 0; i < 8; i++) {
+            dummy.next = new ListNode(i);
+            dummy = dummy.next;
+        }
 
-        return head;
+        return head.next;
     }
 
     private static void printLinkedList(ListNode head) {
