@@ -13,6 +13,7 @@ public class LinkedListRelated {
         node1.next.next.next.next = new ListNode(4);
         printLinkedList(node1);
         System.out.println(findMid(node1).val);
+//        printLinkedList(removeNode(generateLinkedList(), 3));
     }
 
     /**
@@ -143,6 +144,24 @@ public class LinkedListRelated {
         }
 
         return slow;
+    }
+
+    /**
+     * Starting from the head, reverse k nodes as a group, if left nodes is smaller than k. Do nothing to the left
+     * nodes. For example, if k = 3, 1->2->3->4->5->6->7->8->null, than the result is 3->2->1->6->5->4->7->8->null.
+     * 7->8 is not reversed because they cannot form a k-node group.
+     *
+     * @param head head of the linked list
+     * @param k    k nodes as a group to be reversed
+     * @return the new head
+     */
+    public static ListNode kInverse(ListNode head, int k) {
+        int count = 0;
+        while (head != null) {
+
+        }
+
+        return null;
     }
 
     private static ListNode generateLinkedList() {
