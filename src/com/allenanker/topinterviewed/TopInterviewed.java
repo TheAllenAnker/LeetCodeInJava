@@ -6,9 +6,12 @@ public class TopInterviewed {
     public static void main(String[] args) {
 //        System.out.println(sumOfIntegers(1, 2));
 //        System.out.println(firstUniqChar("loveleetcode"));
-        TopInterviewed topInterviewed = new TopInterviewed();
-        System.out.println(topInterviewed.lengthOfLongestSubStr("aabbb", 3));
-        System.out.println(topInterviewed.longestSubstring2("aabbb", 3));
+
+//        TopInterviewed topInterviewed = new TopInterviewed();
+//        System.out.println(topInterviewed.lengthOfLongestSubStr("aabbb", 3));
+//        System.out.println(topInterviewed.longestSubstring2("aabbb", 3));
+
+        System.out.println(fizzBuzz(15));
     }
 
     public static ListNode detectCycle(ListNode head) {
@@ -144,6 +147,23 @@ public class TopInterviewed {
         }
         result = Math.max(result, longestSubstring2(s.substring(start), k));
         return result;
+    }
+
+    public static List<String> fizzBuzz(int n) {
+        ArrayList<String> res = new ArrayList<>();
+        for (int i = 1; i < n + 1; i++) {
+            StringBuilder currStr = new StringBuilder();
+            if (i % 3 == 0) {
+                currStr.append("Fizz");
+            }
+            if (i % 5 == 0) {
+                currStr.append("Buzz");
+            }
+            if (currStr.length() == 0) currStr.append(i);
+            res.add(currStr.toString());
+        }
+
+        return res;
     }
 
     private static int sumArrayIndex(int[] a) {
