@@ -11,7 +11,9 @@ public class TopInterviewed {
 //        System.out.println(topInterviewed.lengthOfLongestSubStr("aabbb", 3));
 //        System.out.println(topInterviewed.longestSubstring2("aabbb", 3));
 
-        System.out.println(fizzBuzz(15));
+        System.out.println(longestSubstring2("aabbb", 3));
+
+//        System.out.println(fizzBuzz(15));
     }
 
     public static ListNode detectCycle(ListNode head) {
@@ -124,29 +126,53 @@ public class TopInterviewed {
         return res;
     }
 
-    public int longestSubstring2(String s, int k) {
-        if (s == null || s.length() == 0) return 0;
-        char[] chars = new char[26];
-        // record the frequency of each character
-        for (int i = 0; i < s.length(); i += 1) chars[s.charAt(i) - 'a'] += 1;
-        boolean flag = true;
-        for (int i = 0; i < chars.length; i += 1) {
-            if (chars[i] < k && chars[i] > 0) flag = false;
-        }
-        // return the length of string if this string is a valid string
-        if (flag == true) return s.length();
-        int result = 0;
-        int start = 0, cur = 0;
-        // otherwise we use all the infrequent elements as splits
-        while (cur < s.length()) {
-            if (chars[s.charAt(cur) - 'a'] < k) {
-                result = Math.max(result, longestSubstring2(s.substring(start, cur), k));
-                start = cur + 1;
+    public static int longestSubstring2(String s, int k) {
+//        if (s == null || s.length() == 0) return 0;
+//        char[] chars = new char[26];
+//        // record the frequency of each character
+//        for (int i = 0; i < s.length(); i += 1) chars[s.charAt(i) - 'a'] += 1;
+//        boolean flag = true;
+//        for (int i = 0; i < chars.length; i += 1) {
+//            if (chars[i] < k && chars[i] > 0) flag = false;
+//        }
+//        // return the length of string if this string is a valid string
+//        if (flag == true) return s.length();
+//        int result = 0;
+//        int start = 0, cur = 0;
+//        // otherwise we use all the infrequent elements as splits
+//        while (cur < s.length()) {
+//            if (chars[s.charAt(cur) - 'a'] < k) {
+//                result = Math.max(result, longestSubstring2(s.substring(start, cur), k));
+//                start = cur + 1;
+//            }
+//            cur++;
+//        }
+//        result = Math.max(result, longestSubstring2(s.substring(start), k));
+//        return result;
+        for (char c : s.toCharArray()) {
+            if (count(c, s) < k) {
+                String[] subStrs = s.split(c + "");
+                int res = 0;
+                for (String str : subStrs) {
+                    int curr = longestSubstring2(str, k);
+                    res = res > curr ? res : curr;
+                }
+                return res;
             }
-            cur++;
         }
-        result = Math.max(result, longestSubstring2(s.substring(start), k));
-        return result;
+
+        return s.length();
+    }
+
+    private static int count(char c, String s) {
+        int count = 0;
+        for (char curr : s.toCharArray()) {
+            if (curr == c) {
+                count += 1;
+            }
+        }
+
+        return count;
     }
 
     public static List<String> fizzBuzz(int n) {
