@@ -1,6 +1,6 @@
 package com.allenanker.topinterviewed;
 
-import java.util.Stack;
+import java.util.*;
 
 public class TopInterviewed2 {
     public static void main(String[] args) {
@@ -12,6 +12,7 @@ public class TopInterviewed2 {
 
     /**
      * Generate and return a linked list: 1->2->3->...->size
+     *
      * @param size size of the linked list
      * @return the head of the linked list
      */
@@ -26,6 +27,10 @@ public class TopInterviewed2 {
         return head.next;
     }
 
+    /**
+     * Print the given linked list in this pattern: n1->n2->n3->...->
+     * @param head head of given linked list
+     */
     private static void printLinkedList(ListNode head) {
         while (true) {
             System.out.print(head.val);
@@ -80,5 +85,50 @@ public class TopInterviewed2 {
             newNext.next = oldNext;
             dummy = dummy.next.next;
         }
+    }
+
+    /**
+     * Given a binary tree, return the preorder traversal of its nodes' values.
+     *
+     * Example:
+     *
+     * Input: [1,null,2,3]
+     *    1
+     *     \
+     *      2
+     *     /
+     *    3
+     *
+     * Output: [1,2,3]
+     * Follow up: Recursive solution is trivial, could you do it iteratively?
+     *
+     * @param root root of given binary tree
+     * @return pre-order traversal list
+     */
+    public List<Integer> preorderTraversal(TreeNode root) {
+        if (root == null) return null;
+        List<Integer> result = new ArrayList<>();
+        Queue<TreeNode> queue = new PriorityQueue<>();
+        queue.add(root);
+        result.add(root.val);
+
+        TreeNode curr = null;
+        for (int i = 0; i < queue.size(); i++) {
+            curr = queue.poll();
+            if (curr.left != null) result.add(root.left.val);
+            if (curr.right != null) result.add(root.right.val);
+        }
+
+        return result;
+    }
+}
+
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+
+    TreeNode(int x) {
+        val = x;
     }
 }

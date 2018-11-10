@@ -1,6 +1,5 @@
 package com.allenanker.linkedlist;
 
-import java.util.Queue;
 import java.util.Stack;
 
 public class LinkedListRelated {
@@ -17,7 +16,8 @@ public class LinkedListRelated {
 //        printLinkedList(node1);
 //        System.out.println(findMid(node1).val);
 //        printLinkedList(removeNode(generateLinkedList(), 3));
-        printLinkedList(kInverse(generateLinkedList(), 3));
+//        printLinkedList(kInverse(generateLinkedList(), 3));
+        printLinkedList(clearVal(generateLinkedList(), 3));
     }
 
     /**
@@ -178,6 +178,26 @@ public class LinkedListRelated {
         while (!stack.isEmpty()) {
             dummy.next = stack.remove(0);
             dummy = dummy.next;
+        }
+
+        return newHead.next;
+    }
+
+    /**
+     * Remove all nodes with the given val as the value in the linked list.
+     * @param head head of the linked list
+     * @param val the given val
+     * @return the new head of linked list
+     */
+    public static ListNode clearVal(ListNode head, int val) {
+        ListNode newHead = new ListNode(0);
+        ListNode dummy = newHead;
+        while (head != null) {
+            if (head.val != val) {
+                dummy.next = head;
+                dummy = dummy.next;
+            }
+            head = head.next;
         }
 
         return newHead.next;
