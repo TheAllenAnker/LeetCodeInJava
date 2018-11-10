@@ -17,7 +17,12 @@ public class LinkedListRelated {
 //        System.out.println(findMid(node1).val);
 //        printLinkedList(removeNode(generateLinkedList(), 3));
 //        printLinkedList(kInverse(generateLinkedList(), 3));
-        printLinkedList(clearVal(generateLinkedList(), 3));
+//        printLinkedList(clearVal(generateLinkedList(), 3));
+        ListNode head = new ListNode(1);
+        head.next = new ListNode(2);
+        head.next.next = new ListNode(2);
+        head.next.next.next = new ListNode(1);
+        System.out.println(isPalindrome(head));
     }
 
     /**
@@ -185,8 +190,9 @@ public class LinkedListRelated {
 
     /**
      * Remove all nodes with the given val as the value in the linked list.
+     *
      * @param head head of the linked list
-     * @param val the given val
+     * @param val  the given val
      * @return the new head of linked list
      */
     public static ListNode clearVal(ListNode head, int val) {
@@ -201,6 +207,42 @@ public class LinkedListRelated {
         }
 
         return newHead.next;
+    }
+
+    /**
+     * Determine whether a given linked list is palindrome or not.
+     *
+     * @param head the head node of the given linked list
+     * @return is or not palindrome
+     */
+    public static boolean isPalindrome(ListNode head) {
+        if (head == null) return true;
+        ListNode slow = head, fast = head;
+        Stack<ListNode> leftHalf = new Stack<>();
+        leftHalf.push(slow);
+        boolean isOdd = true;
+        while (fast != null && fast.next != null) {
+            // save the left half for later checking
+            slow = slow.next;
+            fast = fast.next.next;
+            leftHalf.push(slow);
+            if (fast == null) {
+                isOdd = false;
+            }
+        }
+        // remove the last slow first
+        if (!isOdd) {
+            leftHalf.pop();
+        }
+
+        while (slow != null) {
+            if (slow.val != leftHalf.pop().val) {
+                return false;
+            }
+            slow = slow.next;
+        }
+
+        return true;
     }
 
     private static ListNode generateLinkedList() {
