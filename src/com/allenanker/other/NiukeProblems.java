@@ -17,10 +17,54 @@ public class NiukeProblems {
         spiralMatrix(matrix2);
         int[][] matrix3 = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
         spiralMatrix(matrix3);
+
+        System.out.println("============== Rotate Matrix ==============");
+        rotateMatrix(matrix3);
+        for (int i = 0; i < matrix3.length; i++) {
+            System.out.println(Arrays.toString(matrix3[i]));
+        }
+    }
+
+    /**
+     * Rotate a matrix
+     *
+     * @param matrix the give matrix must have the same number of rows and cols
+     */
+    public static void rotateMatrix(int[][] matrix) {
+        if (matrix == null || matrix.length == 0 || matrix.length != matrix[0].length) {
+            return;
+        }
+
+        int x1 = 0, y1 = 0, x2 = matrix.length - 1, y2 = matrix.length - 1;
+        while (x1 < x2) {
+            rotateMatrixEdges(matrix, x1++, y1++, x2--, y2--);
+        }
+    }
+
+    /**
+     * Rotate the matrix's four out most edges
+     *
+     * @param matrix
+     * @param tR     top row
+     * @param tC     top column
+     * @param dR     down row
+     * @param dC     down column
+     */
+    private static void rotateMatrixEdges(int[][] matrix, int tR, int tC, int dR, int dC) {
+        int times = dR - tR;
+        int tmp;
+        for (int i = 0; i < times; i++) {
+            tmp = matrix[tR][tC + i];
+            matrix[tR][tC + i] = matrix[dR - i][tC];
+            matrix[dR - i][tC] = matrix[dR][dC - i];
+            matrix[dR][dC - i] = matrix[i][dC];
+            matrix[i][dC] = tmp;
+        }
     }
 
     /**
      * Iterate through the matrix in spiral order
+     *
      * @param matrix
      * @return
      */
@@ -35,11 +79,7 @@ public class NiukeProblems {
 
         int x1 = 0, y1 = 0, x2 = matrix.length - 1, y2 = matrix[0].length - 1;
         while (x1 <= x2) {
-            System.out.println(Arrays.toString(edgeCircle(matrix, x1, y1, x2, y2)));
-            x1++;
-            y1++;
-            x2--;
-            y2--;
+            System.out.println(Arrays.toString(edgeCircle(matrix, x1++, y1++, x2--, y2--)));
         }
 
         return res;
@@ -49,6 +89,7 @@ public class NiukeProblems {
      * (x1, y1), (x2, y2) are the two corners of the matrix.
      * Iterate the four edges of the matrix bases no this two points.
      * the input matrix must not be null and the two points are right
+     *
      * @param matrix
      * @param x1
      * @param y1
@@ -58,7 +99,7 @@ public class NiukeProblems {
      */
     private static int[] edgeCircle(int[][] matrix, int x1, int y1, int x2, int y2) {
         int r = x2 - x1 + 1, c = y2 - y1 + 1;
-        int size = (r == c && x1 != x2) ? r * c - 1: r * c;
+        int size = (r == c && x1 != x2) ? r * c - 1 : r * c;
         int[] res = new int[size];
 
         if (r == 1) {
