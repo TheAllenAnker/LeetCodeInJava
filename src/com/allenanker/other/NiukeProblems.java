@@ -42,6 +42,55 @@ public class NiukeProblems {
         System.out.println(isPalindrome(head2));
         printLinkedList(head2);
         System.out.println(isPalindrome(generateListUtilN(4)));
+
+        System.out.println("============== Partition a Linked List By Pivot ==============");
+        partitionByPivot(head1, 1);
+        partitionByPivot(head2, 1);
+        printLinkedList(head1);
+        printLinkedList(head2);
+    }
+
+    /**
+     * Partition a linked list into smaller, equal, and larger parts respectively.
+     * O(n) time complexity, O(1) space complexity. Stable
+     * @param head
+     * @param pivot
+     */
+    public static void partitionByPivot(ListNode head, int pivot) {
+        if (head == null || head.next == null) {
+            return;
+        }
+
+        ListNode dummy = head, smallerHead = new ListNode(), equalHead = new ListNode(), biggerHead = new ListNode();
+        ListNode smaller = smallerHead, equal = equalHead, bigger = biggerHead;
+        while (dummy != null) {
+            ListNode next = dummy.next;
+            if (dummy.val > pivot) {
+                bigger.next = dummy;
+                bigger.next.next = null;
+                bigger = bigger.next;
+            } else if (dummy.val == pivot) {
+                equal.next = dummy;
+                equal.next.next = null;
+                equal = equal.next;
+            } else {
+                smaller.next = dummy;
+                smaller.next.next = null;
+                smaller = smaller.next;
+            }
+            dummy = next;
+        }
+
+        if (smallerHead.next != null) {
+            head = smallerHead.next;
+            equal.next = equalHead.next != null && biggerHead.next == null ? bigger.next : null;
+            smaller.next = equalHead.next == null ? biggerHead.next : equalHead.next;
+        } else if (equalHead.next != null) {
+            head = equalHead.next;
+            equal.next = biggerHead.next;
+        } else {
+            head = biggerHead.next;
+        }
     }
 
     /**
