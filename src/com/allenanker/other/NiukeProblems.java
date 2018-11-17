@@ -26,6 +26,102 @@ public class NiukeProblems {
 
         System.out.println("============== Zigzag Print Matrix ==============");
         zigZagPrintMatrix(matrix3);
+
+        System.out.println("============== Is Palindrome(O(1) space complexity) ==============");
+        ListNode head1 = new ListNode(1);
+        head1.next = new ListNode(2);
+        head1.next.next = new ListNode(2);
+        head1.next.next.next = new ListNode(1);
+        ListNode head2 = new ListNode(1);
+        head2.next = new ListNode(2);
+        head2.next.next = new ListNode(3);
+        head2.next.next.next = new ListNode(2);
+        head2.next.next.next.next = new ListNode(1);
+        System.out.println(isPalindrome(head1));
+        printLinkedList(head1);
+        System.out.println(isPalindrome(head2));
+        printLinkedList(head2);
+        System.out.println(isPalindrome(generateListUtilN(4)));
+    }
+
+    /**
+     * With O(1) space complexity(Reverse the right half of the linked list, determine if it is a palindrome or not,
+     * then reverse it back).
+     *
+     * @param head
+     * @return
+     */
+    public static boolean isPalindrome(ListNode head) {
+        if (head == null || head.next == null) {
+            return true;
+        }
+
+        boolean res = true;
+
+        // find the mid of the linked list
+        ListNode slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            if (fast.next.next != null) slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // reverse the right half of the linked list(starting from slow)
+        // the mid and the head of the right reversed half must have been stored after reversing the right half
+        ListNode curr = slow, prev = null;
+        while (curr != null) {
+            ListNode next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        // the prev is the head of the reversed right half
+        // store the prev pointer for reversing the right half back later
+        ListNode dummy = head, rightHead = prev;
+        while (dummy != null && prev != null) {
+            if (dummy.val != prev.val) {
+                res = false;
+                break;
+            }
+            dummy = dummy.next;
+            prev = prev.next;
+        }
+
+        // reverse the right half back
+        curr = rightHead;
+        prev = null;
+        while (curr != null) {
+            ListNode next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+
+        return res;
+    }
+
+    private static void printLinkedList(ListNode head) {
+        while (head != null) {
+            System.out.print(head.val);
+            if (head.next != null) {
+                System.out.print("->");
+            }
+            head = head.next;
+        }
+        System.out.println();
+    }
+
+    private static ListNode generateListUtilN(int n) {
+        if (n < 1) return null;
+
+        ListNode head = new ListNode();
+        ListNode dummy = head;
+        for (int i = 0; i < n; i++) {
+            dummy.next = new ListNode();
+            dummy.next.val = i + 1;
+            dummy = dummy.next;
+        }
+
+        return head.next;
     }
 
     public static void zigZagPrintMatrix(int[][] matrix) {
@@ -239,5 +335,18 @@ public class NiukeProblems {
         int temp = arr[a];
         arr[a] = arr[b];
         arr[b] = temp;
+    }
+}
+
+
+class ListNode {
+    int val;
+    ListNode next;
+
+    public ListNode() {
+    }
+
+    public ListNode(int val) {
+        this.val = val;
     }
 }
