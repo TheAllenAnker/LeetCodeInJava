@@ -8,6 +8,86 @@ public class NiukeProblems {
 //        flagOfNetherlands(arr, 0, arr.length - 1, 1);
 //        System.out.println(Arrays.toString(arr));
         System.out.println(maxGapInArray(arr));
+
+        int[][] matrix = {{1}, {2}};
+        spiralMatrix(matrix);
+        int[][] matrix1 = {{1, 2, 3}};
+        spiralMatrix(matrix1);
+        int[][] matrix2 = {{1, 2, 3}, {4, 5, 6}};
+        spiralMatrix(matrix2);
+        int[][] matrix3 = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+        spiralMatrix(matrix3);
+    }
+
+    /**
+     * Iterate through the matrix in spiral order
+     * @param matrix
+     * @return
+     */
+    public static int[] spiralMatrix(int[][] matrix) {
+        if (matrix == null || matrix.length == 0) {
+            return null;
+        }
+
+        int r = matrix.length;
+        int c = matrix[0].length;
+        int[] res = new int[r * c];
+
+        int x1 = 0, y1 = 0, x2 = matrix.length - 1, y2 = matrix[0].length - 1;
+        while (x1 <= x2) {
+            System.out.println(Arrays.toString(edgeCircle(matrix, x1, y1, x2, y2)));
+            x1++;
+            y1++;
+            x2--;
+            y2--;
+        }
+
+        return res;
+    }
+
+    /**
+     * (x1, y1), (x2, y2) are the two corners of the matrix.
+     * Iterate the four edges of the matrix bases no this two points.
+     * the input matrix must not be null and the two points are right
+     * @param matrix
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2
+     * @return
+     */
+    private static int[] edgeCircle(int[][] matrix, int x1, int y1, int x2, int y2) {
+        int r = x2 - x1 + 1, c = y2 - y1 + 1;
+        int size = (r == c && x1 != x2) ? r * c - 1: r * c;
+        int[] res = new int[size];
+
+        if (r == 1) {
+            int index = 0;
+            for (int i = y1; i <= y2; i++) {
+                res[index++] = matrix[x1][i];
+            }
+        } else if (c == 1) {
+            int index = 0;
+            for (int i = x1; i <= x2; i++) {
+                res[index++] = matrix[i][y1];
+            }
+        } else {
+            int index = 0;
+            for (int i = y1; i <= y2; i++) {
+                res[index++] = matrix[x1][i];
+            }
+            for (int i = x1 + 1; i <= x2; i++) {
+                res[index++] = matrix[i][y2];
+            }
+            for (int i = y2 - 1; i >= y1; i--) {
+                res[index++] = matrix[x2][i];
+            }
+            for (int i = x2 - 1; i > x1; i--) {
+                res[index++] = matrix[i][y1];
+            }
+        }
+
+        return res;
     }
 
     /**
