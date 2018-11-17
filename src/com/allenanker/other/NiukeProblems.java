@@ -65,6 +65,170 @@ public class NiukeProblems {
                 "==============");
         printLinkedList(copyLinkedListWithRand2(node1));
         printLinkedList(copyLinkedListWithRand2(generateListUtilN(4)));
+
+        System.out.println("============== Find The Interaction Node ==============");
+        System.out.println(getIntersectionNode(head1, head1).val);
+        ListNode node4 = new ListNode(1);
+        ListNode node5 = new ListNode(2);
+        ListNode node6 = new ListNode(3);
+        ListNode node7 = new ListNode(4);
+        node4.next = node5;
+        node5.next = node6;
+        node6.next = node7;
+        node7.next = node5;
+        ListNode node8 = new ListNode(1);
+        node8.next = node6;
+        System.out.println(getIntersectionNode(node4, node8).val);
+    }
+
+    public static ListNode getIntersectionNode(ListNode head1, ListNode head2) {
+        if (head1 == null || head2 == null) {
+            return null;
+        }
+
+        ListNode loop1 = getLoopStartNode(head1), loop2 = getLoopStartNode(head2);
+        if (loop1 == null && loop2 == null) {
+            return noLoop(head1, head2);
+        } else if (loop1 == null || loop2 == null) {
+            return null;
+        } else {
+            return bothLoop(head1, loop1, head2, loop2);
+        }
+    }
+
+    /**
+     * Return the loop start node if the linked list has a loop, or return null.
+     *
+     * @param head
+     */
+    private static ListNode getLoopStartNode(ListNode head) {
+        if (head == null || head.next == null) {
+            return null;
+        }
+
+        ListNode slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {
+                break;
+            }
+        }
+
+        if (slow != fast) {
+            return null;
+        }
+        slow = head;
+        while (slow != fast) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+
+        return slow;
+    }
+
+    /**
+     * Find the intersection node of two linked lists without loop.
+     *
+     * @param head1
+     * @param head2
+     * @return
+     */
+    private static ListNode noLoop(ListNode head1, ListNode head2) {
+        if (head1 == null || head2 == null) {
+            return null;
+        }
+
+        int len1 = 1, len2 = 1;
+        ListNode dummy1 = head1, dummy2 = head2;
+        while (dummy1.next != null) {
+            dummy1 = dummy1.next;
+            len1++;
+        }
+        while (dummy2.next != null) {
+            dummy2 = dummy2.next;
+            len2++;
+        }
+
+        // if the two lists do not have the same tail, then they don't inters
+        if (dummy1 != dummy2) {
+            return null;
+        }
+
+        ListNode curr1 = head1, curr2 = head2;
+        // the list with larger length moves first
+        if (len1 > len2) {
+            for (int i = 0; i < len1 - len2; i++) {
+                curr1 = curr1.next;
+            }
+        } else {
+            for (int i = 0; i < len2 - len1; i++) {
+                curr2 = curr2.next;
+            }
+        }
+        while (curr1 != curr2) {
+            curr1 = curr1.next;
+            curr2 = curr2.next;
+        }
+
+        return curr1;
+    }
+
+    /**
+     * Find the intersection node of two linked lists that have loops.
+     *
+     * @param head1
+     * @param loop1
+     * @param head2
+     * @param loop2
+     * @return
+     */
+    private static ListNode bothLoop(ListNode head1, ListNode loop1, ListNode head2, ListNode loop2) {
+        ListNode curr1, curr2;
+        if (loop1 == loop2) {
+            int n = 0;
+            curr1 = head1;
+            curr2 = head2;
+            while (curr1 != loop1) {
+                curr1 = curr1.next;
+                n++;
+            }
+            while (curr2 != loop2) {
+                curr2 = curr2.next;
+                n--;
+            }
+
+            curr1 = head1;
+            curr2 = head2;
+            if (n > 0) {
+                while (n-- != 0) {
+                    curr1 = curr1.next;
+                }
+            } else {
+                while (n++ != 0) {
+                    curr2 = curr2.next;
+                }
+            }
+
+            while (curr1 != curr2) {
+                curr1 = curr1.next;
+                curr2 = curr2.next;
+            }
+
+            return curr1;
+        } else {
+            ListNode dummy = loop1.next;
+            while (dummy != loop1) {
+                // if loop1 next chain has loop2, then the two list has the same loop
+                // but with different entry points of the loop
+                if (dummy == loop2) {
+                    return loop1;
+                }
+                dummy = dummy.next;
+            }
+            // if they don't have the same loop, there cannot be an intersection between them
+            return null;
+        }
     }
 
     /**
