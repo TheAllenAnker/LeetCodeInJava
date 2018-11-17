@@ -23,6 +23,45 @@ public class NiukeProblems {
         for (int i = 0; i < matrix3.length; i++) {
             System.out.println(Arrays.toString(matrix3[i]));
         }
+
+        System.out.println("============== Zigzag Print Matrix ==============");
+        zigZagPrintMatrix(matrix3);
+    }
+
+    public static void zigZagPrintMatrix(int[][] matrix) {
+        if (matrix == null || matrix.length == 0) {
+            return;
+        }
+
+        int r = matrix.length, c = matrix[0].length;
+        int tR = 0, tC = 0, dR = 0, dC = 0;
+        boolean up = true;
+        while (tR <= dR) {
+            if (up) {
+                int i = dR, j = dC;
+                while (i >= tR) {
+                    System.out.print(matrix[i--][j++]);
+                }
+                System.out.println();
+            } else {
+                int i = tR, j = tC;
+                while (i <= dR) {
+                    System.out.print(matrix[i++][j--]);
+                }
+                System.out.println();
+            }
+            up = !up;
+            if (tC == c - 1) {
+                tR++;
+            } else {
+                tC++;
+            }
+            if (dR == r - 1) {
+                dC++;
+            } else {
+                dR++;
+            }
+        }
     }
 
     /**
