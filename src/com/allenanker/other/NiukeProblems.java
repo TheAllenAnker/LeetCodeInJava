@@ -1,6 +1,7 @@
 package com.allenanker.other;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class NiukeProblems {
     public static void main(String[] args) {
@@ -48,11 +49,53 @@ public class NiukeProblems {
         partitionByPivot(head2, 1);
         printLinkedList(head1);
         printLinkedList(head2);
+
+        System.out.println("============== Copy a Linked List With Random Pointers ==============");
+        ListNode node1 = new ListNode(1);
+        ListNode node2 = new ListNode(2);
+        ListNode node3 = new ListNode(3);
+        node1.next = node2;
+        node2.next = node3;
+        node1.random = node3;
+        node2.random = node1;
+        node3.random = node1;
+        printLinkedList(copyLinkedListWithRand(node1));
+    }
+
+    /**
+     * Deep copy a linked list, beside a next pointer, each node has a random pointer.
+     * @param head
+     */
+    public static ListNode copyLinkedListWithRand(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        HashMap<ListNode, ListNode> copysMap = new HashMap<>();
+        ListNode dummy = head;
+        while (dummy != null) {
+            ListNode newCurr = new ListNode(dummy.val);
+            copysMap.put(dummy, newCurr);
+            dummy = dummy.next;
+        }
+
+        dummy = head;
+        ListNode res = new ListNode();
+        ListNode resCopy = res;
+        while (dummy != null) {
+            resCopy.next = copysMap.get(dummy);
+            resCopy = resCopy.next;
+            resCopy.random = copysMap.get(dummy.random);
+            dummy = dummy.next;
+        }
+
+        return res.next;
     }
 
     /**
      * Partition a linked list into smaller, equal, and larger parts respectively.
      * O(n) time complexity, O(1) space complexity. Stable
+     *
      * @param head
      * @param pivot
      */
@@ -391,6 +434,7 @@ public class NiukeProblems {
 class ListNode {
     int val;
     ListNode next;
+    ListNode random;
 
     public ListNode() {
     }
