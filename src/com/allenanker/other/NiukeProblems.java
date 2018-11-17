@@ -60,10 +60,59 @@ public class NiukeProblems {
         node2.random = node1;
         node3.random = node1;
         printLinkedList(copyLinkedListWithRand(node1));
+
+        System.out.println("============== Copy a Linked List With Random Pointers(Without Using HashMap) " +
+                "==============");
+        printLinkedList(copyLinkedListWithRand2(node1));
+        printLinkedList(copyLinkedListWithRand2(generateListUtilN(4)));
     }
 
     /**
      * Deep copy a linked list, beside a next pointer, each node has a random pointer.
+     * Without using HashMap.
+     *
+     * @param head
+     * @return
+     */
+    public static ListNode copyLinkedListWithRand2(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        ListNode dummy = head;
+        ListNode next;
+        // link the old nodes and the new nodes together
+        while (dummy != null) {
+            next = dummy.next;
+            dummy.next = new ListNode(dummy.val);
+            dummy.next.next = next;
+            dummy = dummy.next.next;
+        }
+        // initialize the random pointers
+        dummy = head;
+        while (dummy != null) {
+            dummy.next.random = dummy.random == null ? null : dummy.random.next;
+            dummy = dummy.next.next;
+        }
+        // separate the linked list in to two linked list(original one and new one)
+        ListNode newHead = head.next;
+        dummy = head;
+        ListNode newHeadDummy = newHead;
+        while (dummy != null) {
+            dummy.next = dummy.next.next;
+            if (dummy.next != null) {
+                newHeadDummy.next = dummy.next.next;
+            }
+            dummy = dummy.next;
+            newHeadDummy = newHeadDummy.next;
+        }
+
+        return newHead;
+    }
+
+    /**
+     * Deep copy a linked list, beside a next pointer, each node has a random pointer.
+     *
      * @param head
      */
     public static ListNode copyLinkedListWithRand(ListNode head) {
@@ -80,16 +129,13 @@ public class NiukeProblems {
         }
 
         dummy = head;
-        ListNode res = new ListNode();
-        ListNode resCopy = res;
         while (dummy != null) {
-            resCopy.next = copysMap.get(dummy);
-            resCopy = resCopy.next;
-            resCopy.random = copysMap.get(dummy.random);
+            copysMap.get(dummy).next = copysMap.get(dummy.next);
+            copysMap.get(dummy).random = copysMap.get(dummy.random);
             dummy = dummy.next;
         }
 
-        return res.next;
+        return copysMap.get(head);
     }
 
     /**
