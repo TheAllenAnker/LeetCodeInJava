@@ -6,6 +6,39 @@ public class TreeRelated {
     public static void main(String[] args) {
         preOrderTraversal(generateSimpleTree());
         inOrderTraversal(generateSimpleTree());
+        postOrderTraversal(generateSimpleTree());
+    }
+
+    /**
+     * Traversal a binary tree in post-order. Not recursively.
+     * Using an extra stack to store the result.
+     *
+     * @param root root of the binary tree
+     */
+    public static void postOrderTraversal(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+
+        System.out.println("Post-order Traversal:");
+        Stack<TreeNode> stack = new Stack<>();
+        Stack<TreeNode> res = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode curr = stack.pop();
+            res.push(curr);
+            if (curr.left != null) {
+                stack.push(curr.left);
+            }
+            if (curr.right != null) {
+                stack.push(curr.right);
+            }
+        }
+
+        while (!res.isEmpty()) {
+            System.out.print(res.pop().val + "->");
+        }
+        System.out.print("end\n");
     }
 
     /**
