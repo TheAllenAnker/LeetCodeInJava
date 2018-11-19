@@ -4,9 +4,43 @@ import java.util.Stack;
 
 public class TreeRelated {
     public static void main(String[] args) {
-        preOrderTraversal(generateSimpleTree());
-        inOrderTraversal(generateSimpleTree());
-        postOrderTraversal(generateSimpleTree());
+//        preOrderTraversal(generateSimpleTree());
+//        inOrderTraversal(generateSimpleTree());
+//        postOrderTraversal(generateSimpleTree());
+        TreeNode2 treeNode2 = generateSimpleTree2();
+        System.out.println(getNextTreenode2(treeNode2.right.left).val);
+    }
+
+    /**
+     * Get "the next treenode" of the given node. "The next treenode" is defined as the next node after the given node
+     * in in-order traversal. (the treenode has an extra parent pointer)
+     * 返回 node 的后继节点
+     *
+     * @param node
+     * @return next node in in-order traversal
+     */
+    public static TreeNode2 getNextTreenode2(TreeNode2 node) {
+        if (node == null) {
+            return null;
+        }
+
+        // if the right child is not null, return the left most node if the right subtree
+        if (node.right != null) {
+            TreeNode2 curr = node.right;
+            while (curr.left != null) {
+                curr = curr.left;
+            }
+            return curr;
+        } else {
+            // if the right child is null, then this node is the last node in its biggest left subtree
+            // or the last node in the whole tree
+            TreeNode2 curr = node;
+            while (curr.parent != null && curr != curr.parent.left) {
+                curr = curr.parent;
+            }
+            return curr.parent;
+        }
+
     }
 
     /**
@@ -108,6 +142,25 @@ public class TreeRelated {
 
         return head;
     }
+
+    private static TreeNode2 generateSimpleTree2() {
+        TreeNode2 head = new TreeNode2(1);
+        head.parent = null;
+        head.left = new TreeNode2(2);
+        head.right = new TreeNode2(3);
+        head.left.parent = head;
+        head.right.parent = head;
+        head.left.left = new TreeNode2(4);
+        head.left.right = new TreeNode2(5);
+        head.left.left.parent = head.left;
+        head.left.right.parent = head.left;
+        head.right.left = new TreeNode2(6);
+        head.right.right = new TreeNode2(7);
+        head.right.left.parent = head.right;
+        head.right.right.parent = head.right;
+
+        return head;
+    }
 }
 
 class TreeNode {
@@ -119,6 +172,17 @@ class TreeNode {
     }
 
     public TreeNode(int val) {
+        this.val = val;
+    }
+}
+
+class TreeNode2 {
+    int val;
+    TreeNode2 left;
+    TreeNode2 right;
+    TreeNode2 parent;
+
+    public TreeNode2(int val) {
         this.val = val;
     }
 }
