@@ -19,12 +19,48 @@ public class TreeRelated {
 
 //        System.out.println(isCBT(generateSimpleTree()));
 
-        System.out.println(countNodesInCBT(generateSimpleTree()));
+        System.out.println(countNodesInCBT2(generateSimpleTree()));
     }
 
     /**
      * Calculate the number of nodes in a CBT.
-     * Time complexity must smaller than O(n)
+     * Time complexity must be smaller than O(n)
+     *
+     * @param root
+     * @return
+     */
+    public static int countNodesInCBT2(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+
+        int res = 1;
+
+        int leftD = 1;
+        TreeNode curr = root.left;
+        while (curr != null) {
+            leftD++;
+            curr = curr.left;
+        }
+        // rightLD stores the left most nodes depth in the right subtree
+        int rightLD = 1;
+        curr = root.right;
+        while (curr != null) {
+            rightLD++;
+            curr = curr.left;
+        }
+
+        if (leftD == rightLD) {
+            res += (1 << leftD - 1) - 1 + countNodesInCBT2(root.right);
+        } else {
+            res += (1 << rightLD - 1) - 1 + countNodesInCBT2(root.left);
+        }
+
+        return res;
+    }
+
+    /**
+     * Calculate the number of nodes in a CBT.
      *
      * @param root
      * @return
