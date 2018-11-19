@@ -17,7 +17,42 @@ public class TreeRelated {
 
 //        System.out.println(isBST(generateSimpleTree()));
 
-        System.out.println(isCBT(generateSimpleTree()));
+//        System.out.println(isCBT(generateSimpleTree()));
+
+        System.out.println(countNodesInCBT(generateSimpleTree()));
+    }
+
+    /**
+     * Calculate the number of nodes in a CBT.
+     * Time complexity must smaller than O(n)
+     *
+     * @param root
+     * @return
+     */
+    public static int countNodesInCBT(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+
+        int count = 1;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        TreeNode curr;
+        while (!queue.isEmpty()) {
+            curr = queue.poll();
+            if (curr.left == null) {
+                return count;
+            } else {
+                queue.offer(curr.left);
+                count++;
+                if (curr.right != null) {
+                    queue.offer(curr.right);
+                    count++;
+                }
+            }
+        }
+
+        return count;
     }
 
     /**
@@ -306,8 +341,6 @@ public class TreeRelated {
         head.left.right = new TreeNode(5);
         head.right.left = new TreeNode(6);
         head.right.right = new TreeNode(7);
-        head.left.left.right = new TreeNode(4);
-        head.left.right.right = new TreeNode(1);
 
         return head;
     }
