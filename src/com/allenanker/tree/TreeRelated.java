@@ -11,8 +11,40 @@ public class TreeRelated {
 //        postOrderTraversal(generateSimpleTree());
 //        TreeNode2 treeNode2 = generateSimpleTree2();
 //        System.out.println(getNextTreenode2(treeNode2.right.left).val);
-        TreeNode root = reconByPreStr(serializeBTInPre(generateSimpleTree()));
-        System.out.println();
+//        TreeNode root = reconByPreStr(serializeBTInPre(generateSimpleTree()));
+//        System.out.println();
+        System.out.println(isBalancedBT(generateSimpleTree()));
+    }
+
+    /**
+     * Determine if a given binary tree is balanced or not.
+     *
+     * @param root
+     * @return
+     */
+    public static boolean isBalancedBT(TreeNode root) {
+        return getDepth(root) >= 0;
+    }
+
+    private static int getDepth(TreeNode node) {
+        if (node == null) {
+            return 0;
+        }
+
+        int leftH = getDepth(node.left);
+        if (leftH < 0) {
+            return -1;
+        }
+        int rightH = getDepth(node.right);
+        if (rightH < 0) {
+            return -1;
+        }
+
+        if (Math.abs(leftH - rightH) > 1) {
+            return -1;
+        }
+
+        return Math.max(leftH, rightH) + 1;
     }
 
     /**
