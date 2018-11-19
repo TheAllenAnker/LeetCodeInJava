@@ -1,5 +1,7 @@
 package com.allenanker.tree;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 public class TreeRelated {
@@ -7,8 +9,59 @@ public class TreeRelated {
 //        preOrderTraversal(generateSimpleTree());
 //        inOrderTraversal(generateSimpleTree());
 //        postOrderTraversal(generateSimpleTree());
-        TreeNode2 treeNode2 = generateSimpleTree2();
-        System.out.println(getNextTreenode2(treeNode2.right.left).val);
+//        TreeNode2 treeNode2 = generateSimpleTree2();
+//        System.out.println(getNextTreenode2(treeNode2.right.left).val);
+        TreeNode root = reconByPreStr(serializeBTInPre(generateSimpleTree()));
+        System.out.println();
+    }
+
+    /**
+     * Deserialize a binary tree from a pre-order traversal string.
+     *
+     * @param preString
+     * @return
+     */
+    public static TreeNode reconByPreStr(String preString) {
+        if (preString == null) {
+            return null;
+        }
+
+        String[] values = preString.split("!");
+        Queue<String> queue = new LinkedList<>();
+        for (int i = 0; i < values.length; i++) {
+            queue.offer(values[i]);
+        }
+
+        return reconByPreOrder(queue);
+    }
+
+    private static TreeNode reconByPreOrder(Queue<String> queue) {
+        String value = queue.poll();
+        if (value.equals("#")) {
+            return null;
+        }
+        TreeNode head = new TreeNode(Integer.valueOf(value));
+        head.left = reconByPreOrder(queue);
+        head.right = reconByPreOrder(queue);
+
+        return head;
+    }
+
+    /**
+     * Serialize a binary tree in pre-order.
+     *
+     * @param root
+     * @return
+     */
+    public static String serializeBTInPre(TreeNode root) {
+        if (root == null) {
+            return "#!";
+        }
+        String res = root.val + "!";
+        res += serializeBTInPre(root.left);
+        res += serializeBTInPre(root.right);
+
+        return res;
     }
 
     /**
