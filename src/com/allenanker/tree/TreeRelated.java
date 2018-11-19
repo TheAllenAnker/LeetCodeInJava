@@ -13,7 +13,46 @@ public class TreeRelated {
 //        System.out.println(getNextTreenode2(treeNode2.right.left).val);
 //        TreeNode root = reconByPreStr(serializeBTInPre(generateSimpleTree()));
 //        System.out.println();
-        System.out.println(isBalancedBT(generateSimpleTree()));
+//        System.out.println(isBalancedBT(generateSimpleTree()));
+
+        System.out.println(isBST(generateSimpleTree()));
+    }
+
+    /**
+     * Determine if a binary tree is BST or not.
+     * If the in-order traversal of the binary tree is in ascending order. Then it's BST.
+     *
+     * @param root
+     * @return
+     */
+    public static boolean isBST(TreeNode root) {
+        if (root == null) {
+            return false;
+        }
+
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode curr = root;
+        int prevNum = Integer.MIN_VALUE;
+        while (!stack.isEmpty() || curr != null) {
+            // push all the left nodes into the stack first
+            if (curr != null) {
+                stack.push(curr);
+                curr = curr.left;
+            } else {
+                // reach the end of the left subtree, the parent of this end should be pop out
+                // and the right subtree of this parent should be handled in the above way
+                curr = stack.pop();
+                // if it is not in ascending order, the it's not a BST
+                if (curr.val < prevNum) {
+                    return false;
+                } else {
+                    prevNum = curr.val;
+                }
+                curr = curr.right;
+            }
+        }
+
+        return true;
     }
 
     /**
