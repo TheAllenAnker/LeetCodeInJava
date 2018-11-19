@@ -15,7 +15,50 @@ public class TreeRelated {
 //        System.out.println();
 //        System.out.println(isBalancedBT(generateSimpleTree()));
 
-        System.out.println(isBST(generateSimpleTree()));
+//        System.out.println(isBST(generateSimpleTree()));
+
+        System.out.println(isCBT(generateSimpleTree()));
+    }
+
+    /**
+     * Determine if a binary tree is CBT or not.
+     * Traverse the tree by level, if a node with right child but without left child, not a CBT.
+     * Has left, but does not have right, or doesn't have left and right, then all the nodes remain must
+     * be left nodes.
+     *
+     * @param root
+     * @return
+     */
+    public static boolean isCBT(TreeNode root) {
+        if (root == null) {
+            return false;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        TreeNode curr, l, r;
+        boolean remainAllLeafs = false;
+        while (!queue.isEmpty()) {
+            curr = queue.poll();
+            l = curr.left;
+            r = curr.right;
+            // if (r != null and l == null) or ((allLeafs) and (l != null or r != null)(this means some nodes is not
+            // leafs)))
+            if ((r != null && l == null) || (remainAllLeafs && l != null)) {
+                return false;
+            }
+            if (l != null) {
+                queue.offer(l);
+            }
+            if (r != null) {
+                queue.offer(r);
+            } else {
+                // if r is null, the remaining nodes cannot have any child
+                remainAllLeafs = true;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -263,6 +306,8 @@ public class TreeRelated {
         head.left.right = new TreeNode(5);
         head.right.left = new TreeNode(6);
         head.right.right = new TreeNode(7);
+        head.left.left.right = new TreeNode(4);
+        head.left.right.right = new TreeNode(1);
 
         return head;
     }
