@@ -23,9 +23,11 @@ public class RandomPool<T> {
     }
 
     public void insert(T key) {
-        indexMap.put(key, size);
-        objectMap.put(size, key);
-        size++;
+        if (!indexMap.containsKey(key)) {
+            indexMap.put(key, size);
+            objectMap.put(size, key);
+            size++;
+        }
     }
 
     /**
