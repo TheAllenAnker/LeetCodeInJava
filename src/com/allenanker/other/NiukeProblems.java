@@ -82,7 +82,54 @@ public class NiukeProblems {
 
 //        printAllStrSub("abc", 0, "");
 
-        printAllPermutations("abc");
+//        printAllPermutations("abc");
+
+        System.out.println(breedCount(6));
+    }
+
+    /**
+     * From top left to bottom right, sum each number along the path. Get the path with the smallest sum.
+     * Return the sum.
+     *
+     * @param matrix
+     * @return
+     */
+    public static int smallestPathSum(int[][] matrix) {
+        return smallestPathHelper(matrix, 0, 0);
+    }
+
+    private static int smallestPathHelper(int[][] matrix, int i, int j) {
+        // reach the bottom right
+        if (i == matrix.length - 1 && j == matrix[0].length - 1) {
+            return matrix[i][j];
+        }
+        // reach the bottom row
+        if (i == matrix.length - 1) {
+            return matrix[i][j] + smallestPathHelper(matrix, i, j + 1);
+        }
+        // reach the right most column
+        if (j == matrix[0].length - 1) {
+            return matrix[i][j] + smallestPathHelper(matrix, i + 1, j);
+        }
+        int down = smallestPathHelper(matrix, i + 1, j);
+        int right = smallestPathHelper(matrix, i, j + 1);
+
+        return matrix[i][j] + Math.min(down, right);
+    }
+
+    /**
+     * A cow breeds one cow every year, each new cow needs 3 years to have to breed ability.
+     * Count how many cows will be there after the given year.
+     * After the 4th year, count(n) = count(n-1) + count(n-3). Time Complexity: O(n)
+     *
+     * @param year
+     * @return
+     */
+    public static int breedCount(int year) {
+        if (year <= 4) {
+            return year;
+        }
+        return breedCount(year - 1) + breedCount(year - 3);
     }
 
     public static void printAllPermutations(String s) {
