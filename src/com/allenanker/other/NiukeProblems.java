@@ -8,77 +8,125 @@ public class NiukeProblems {
         int[] arr = new int[]{2, 1, 6, 7, 2, 2, 0, 1, 8, 2};
 //        flagOfNetherlands(arr, 0, arr.length - 1, 1);
 //        System.out.println(Arrays.toString(arr));
-        System.out.println(maxGapInArray(arr));
+//        System.out.println(maxGapInArray(arr));
+//
+//        int[][] matrix = {{1}, {2}};
+//        spiralMatrix(matrix);
+//        int[][] matrix1 = {{1, 2, 3}};
+//        spiralMatrix(matrix1);
+//        int[][] matrix2 = {{1, 2, 3}, {4, 5, 6}};
+//        spiralMatrix(matrix2);
+//        int[][] matrix3 = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+//        spiralMatrix(matrix3);
+//
+//        System.out.println("============== Rotate Matrix ==============");
+//        rotateMatrix(matrix3);
+//        for (int i = 0; i < matrix3.length; i++) {
+//            System.out.println(Arrays.toString(matrix3[i]));
+//        }
+//
+//        System.out.println("============== Zigzag Print Matrix ==============");
+//        zigZagPrintMatrix(matrix3);
+//
+//        System.out.println("============== Is Palindrome(O(1) space complexity) ==============");
+//        ListNode head1 = new ListNode(1);
+//        head1.next = new ListNode(2);
+//        head1.next.next = new ListNode(2);
+//        head1.next.next.next = new ListNode(1);
+//        ListNode head2 = new ListNode(1);
+//        head2.next = new ListNode(2);
+//        head2.next.next = new ListNode(3);
+//        head2.next.next.next = new ListNode(2);
+//        head2.next.next.next.next = new ListNode(1);
+//        System.out.println(isPalindrome(head1));
+//        printLinkedList(head1);
+//        System.out.println(isPalindrome(head2));
+//        printLinkedList(head2);
+//        System.out.println(isPalindrome(generateListUtilN(4)));
+//
+//        System.out.println("============== Partition a Linked List By Pivot ==============");
+//        partitionByPivot(head1, 1);
+//        partitionByPivot(head2, 1);
+//        printLinkedList(head1);
+//        printLinkedList(head2);
+//
+//        System.out.println("============== Copy a Linked List With Random Pointers ==============");
+//        ListNode node1 = new ListNode(1);
+//        ListNode node2 = new ListNode(2);
+//        ListNode node3 = new ListNode(3);
+//        node1.next = node2;
+//        node2.next = node3;
+//        node1.random = node3;
+//        node2.random = node1;
+//        node3.random = node1;
+//        printLinkedList(copyLinkedListWithRand(node1));
+//
+//        System.out.println("============== Copy a Linked List With Random Pointers(Without Using HashMap) " +
+//                "==============");
+//        printLinkedList(copyLinkedListWithRand2(node1));
+//        printLinkedList(copyLinkedListWithRand2(generateListUtilN(4)));
+//
+//        System.out.println("============== Find The Interaction Node ==============");
+//        System.out.println(getIntersectionNode(head1, head1).val);
+//        ListNode node4 = new ListNode(1);
+//        ListNode node5 = new ListNode(2);
+//        ListNode node6 = new ListNode(3);
+//        ListNode node7 = new ListNode(4);
+//        node4.next = node5;
+//        node5.next = node6;
+//        node6.next = node7;
+//        node7.next = node5;
+//        ListNode node8 = new ListNode(1);
+//        node8.next = node6;
+//        System.out.println(getIntersectionNode(node4, node8).val);
 
-        int[][] matrix = {{1}, {2}};
-        spiralMatrix(matrix);
-        int[][] matrix1 = {{1, 2, 3}};
-        spiralMatrix(matrix1);
-        int[][] matrix2 = {{1, 2, 3}, {4, 5, 6}};
-        spiralMatrix(matrix2);
-        int[][] matrix3 = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-        spiralMatrix(matrix3);
+//        printAllStrSub("abc", 0, "");
 
-        System.out.println("============== Rotate Matrix ==============");
-        rotateMatrix(matrix3);
-        for (int i = 0; i < matrix3.length; i++) {
-            System.out.println(Arrays.toString(matrix3[i]));
+        printAllPermutations("abc");
+    }
+
+    public static void printAllPermutations(String s) {
+        if (s == null || s.trim().equals("")) {
+            return;
         }
 
-        System.out.println("============== Zigzag Print Matrix ==============");
-        zigZagPrintMatrix(matrix3);
+        char[] chars = s.toCharArray();
+        printPermutationsHelper(chars, 0);
+    }
 
-        System.out.println("============== Is Palindrome(O(1) space complexity) ==============");
-        ListNode head1 = new ListNode(1);
-        head1.next = new ListNode(2);
-        head1.next.next = new ListNode(2);
-        head1.next.next.next = new ListNode(1);
-        ListNode head2 = new ListNode(1);
-        head2.next = new ListNode(2);
-        head2.next.next = new ListNode(3);
-        head2.next.next.next = new ListNode(2);
-        head2.next.next.next.next = new ListNode(1);
-        System.out.println(isPalindrome(head1));
-        printLinkedList(head1);
-        System.out.println(isPalindrome(head2));
-        printLinkedList(head2);
-        System.out.println(isPalindrome(generateListUtilN(4)));
+    private static void printPermutationsHelper(char[] chars, int i) {
+        if (i == chars.length) {
+            System.out.println(String.valueOf(chars));
+        }
 
-        System.out.println("============== Partition a Linked List By Pivot ==============");
-        partitionByPivot(head1, 1);
-        partitionByPivot(head2, 1);
-        printLinkedList(head1);
-        printLinkedList(head2);
+        for (int j = i; j < chars.length; j++) {
+            swap(chars, i, j);
+            printPermutationsHelper(chars, i + 1);
+        }
+    }
 
-        System.out.println("============== Copy a Linked List With Random Pointers ==============");
-        ListNode node1 = new ListNode(1);
-        ListNode node2 = new ListNode(2);
-        ListNode node3 = new ListNode(3);
-        node1.next = node2;
-        node2.next = node3;
-        node1.random = node3;
-        node2.random = node1;
-        node3.random = node1;
-        printLinkedList(copyLinkedListWithRand(node1));
+    private static void swap(char[] chars, int a, int b) {
+        char temp = chars[a];
+        chars[a] = chars[b];
+        chars[b] = temp;
+    }
 
-        System.out.println("============== Copy a Linked List With Random Pointers(Without Using HashMap) " +
-                "==============");
-        printLinkedList(copyLinkedListWithRand2(node1));
-        printLinkedList(copyLinkedListWithRand2(generateListUtilN(4)));
+    public static void printAllSub(String s) {
+        if (s == null || s.trim().equals("")) {
+            return;
+        }
 
-        System.out.println("============== Find The Interaction Node ==============");
-        System.out.println(getIntersectionNode(head1, head1).val);
-        ListNode node4 = new ListNode(1);
-        ListNode node5 = new ListNode(2);
-        ListNode node6 = new ListNode(3);
-        ListNode node7 = new ListNode(4);
-        node4.next = node5;
-        node5.next = node6;
-        node6.next = node7;
-        node7.next = node5;
-        ListNode node8 = new ListNode(1);
-        node8.next = node6;
-        System.out.println(getIntersectionNode(node4, node8).val);
+        printAllStrSub(s, 0, "");
+    }
+
+    public static void printAllStrSub(String s, int i, String res) {
+        if (i == s.length()) {
+            System.out.println(res);
+            return;
+        }
+
+        printAllStrSub(s, i + 1, res);
+        printAllStrSub(s, i + 1, res + s.charAt(i));
     }
 
     public static ListNode getIntersectionNode(ListNode head1, ListNode head2) {
