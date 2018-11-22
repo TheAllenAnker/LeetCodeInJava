@@ -85,9 +85,24 @@ public class NiukeProblems {
 //        printAllPermutations("abc");
 
 //        System.out.println(breedCount(6));
+//
+//        int[][] matrix = {{3, 1, 0, 2}, {4, 3, 2, 1}, {5, 2, 1, 0}};
+//        System.out.println(smallestPathSum(matrix));
 
-        int[][] matrix = {{3, 1, 0, 2}, {4, 3, 2, 1}, {5, 2, 1, 0}};
-        System.out.println(smallestPathSum(matrix));
+        int[] arr2 = new int[]{7, 3, 3, 13};
+        System.out.println(canGetAimFromArray(arr2, 9));
+    }
+
+    public static boolean canGetAimFromArray(int[] arr, int aim) {
+        return getAimHelper(arr, aim, 0, 0);
+    }
+
+    private static boolean getAimHelper(int[] arr, int aim, int i, int sum) {
+        if (i == arr.length) {
+            return aim == sum;
+        }
+
+        return getAimHelper(arr, aim, i + 1, sum + arr[i]) || getAimHelper(arr, aim, i + 1, sum);
     }
 
     /**
