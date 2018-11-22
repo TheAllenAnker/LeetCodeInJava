@@ -84,7 +84,10 @@ public class NiukeProblems {
 
 //        printAllPermutations("abc");
 
-        System.out.println(breedCount(6));
+//        System.out.println(breedCount(6));
+
+        int[][] matrix = {{3, 1, 0, 2}, {4, 3, 2, 1}, {5, 2, 1, 0}};
+        System.out.println(smallestPathSum(matrix));
     }
 
     /**
@@ -95,7 +98,9 @@ public class NiukeProblems {
      * @return
      */
     public static int smallestPathSum(int[][] matrix) {
-        return smallestPathHelper(matrix, 0, 0);
+        System.out.println(smallestPathHelper(matrix, 0, 0));
+        int[][] results = {{-1, -1, -1, -1}, {-1, -1, -1, -1}, {-1, -1, -1, -1}};
+        return smallestPathHelper2(matrix, 0, 0, results);
     }
 
     private static int smallestPathHelper(int[][] matrix, int i, int j) {
@@ -116,6 +121,41 @@ public class NiukeProblems {
 
         return matrix[i][j] + Math.min(down, right);
     }
+
+    /**
+     * Cached the calculated results(compared to helper1)
+     *
+     * @param matrix
+     * @param i
+     * @param j
+     * @param results
+     * @return
+     */
+    private static int smallestPathHelper2(int[][] matrix, int i, int j, int[][] results) {
+        if (results[i][j] > 0) {
+            return results[i][j];
+        }
+        // reach the bottom right
+        if (i == matrix.length - 1 && j == matrix[0].length - 1) {
+            return matrix[i][j];
+        }
+        // reach the bottom row
+        if (i == matrix.length - 1) {
+            return matrix[i][j] + smallestPathHelper(matrix, i, j + 1);
+        }
+        // reach the right most column
+        if (j == matrix[0].length - 1) {
+            return matrix[i][j] + smallestPathHelper(matrix, i + 1, j);
+        }
+        int down = smallestPathHelper(matrix, i + 1, j);
+        int right = smallestPathHelper(matrix, i, j + 1);
+
+        int result = matrix[i][j] + Math.min(down, right);
+        results[i][j] = result;
+
+        return result;
+    }
+
 
     /**
      * A cow breeds one cow every year, each new cow needs 3 years to have to breed ability.
