@@ -95,6 +95,7 @@ public class NiukeProblems {
     }
 
     private static void printPermutationsHelper(char[] chars, int i) {
+        // when i has reached the end, a string permutation is generated
         if (i == chars.length) {
             System.out.println(String.valueOf(chars));
         }
@@ -102,6 +103,8 @@ public class NiukeProblems {
         for (int j = i; j < chars.length; j++) {
             swap(chars, i, j);
             printPermutationsHelper(chars, i + 1);
+            // swap it back and swap the the curr char to the next possible position
+            swap(chars, i, j);
         }
     }
 
